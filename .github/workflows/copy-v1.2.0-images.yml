@@ -19,7 +19,7 @@ jobs:
           set -euo pipefail
           echo '${{ secrets.GITHUB_TOKEN }}' | docker login ghcr.io -u '${{ github.actor }}' --password-stdin
           for image in api web; do
-            docker buildx imagetools create \
+            docker buildx imagetools create --prefer-index=false \
               --tag "ghcr.io/haswanth13901/zenoeats/$image:v1.2.0" \
               "ghcr.io/haswanth13901/zenoeats-mvp/$image:v1.2.0"
             old=$(docker buildx imagetools inspect "ghcr.io/haswanth13901/zenoeats-mvp/$image:v1.2.0" --format '{{json .Manifest.Digest}}')
